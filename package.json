@@ -1,0 +1,48 @@
+{
+  "name": "agent-chatbot-ui-vue",
+  "version": "0.1.0",
+  "description": "Generic Vue 3 Agent Chatbot UI component library",
+  "author": "gaosichun888",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaosichun888/chatui"
+  },
+  "keywords": ["vue3", "chatbot", "agent", "ai", "sse", "hitl", "component-library"],
+  "type": "module",
+  "main": "./dist/agent-chat-ui.umd.cjs",
+  "module": "./dist/agent-chat-ui.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/agent-chat-ui.js",
+      "require": "./dist/agent-chat-ui.umd.cjs"
+    },
+    "./style.css": "./dist/agent-chat-ui.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite demo",
+    "build": "vite build",
+    "build:demo": "vite build --mode demo",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "dependencies": {
+    "highlight.js": "^11.9.0",
+    "marked": "^12.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0",
+    "vue": "^3.4.0",
+    "vue-tsc": "^2.0.0"
+  }
+}

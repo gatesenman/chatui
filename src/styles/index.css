@@ -1,0 +1,81 @@
+.ac-root {
+  --ac-primary: #4f6ef7;
+  --ac-primary-soft: rgba(79, 110, 247, 0.1);
+  --ac-bg: #ffffff;
+  --ac-bg-soft: #f5f6fa;
+  --ac-border: #e4e7ed;
+  --ac-text: #1f2329;
+  --ac-text-secondary: #6b7280;
+  --ac-radius: 10px;
+  --ac-success: #16a34a;
+  --ac-danger: #dc2626;
+  --ac-warning: #d97706;
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  background: var(--ac-bg);
+  color: var(--ac-text);
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+.ac-root.ac-dark {
+  --ac-bg: #16181d;
+  --ac-bg-soft: #22252c;
+  --ac-border: #34373f;
+  --ac-text: #e5e7eb;
+  --ac-text-secondary: #9ca3af;
+}
+
+.ac-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--ac-border);
+  background: var(--ac-bg);
+  color: var(--ac-text);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: all 0.15s;
+}
+.ac-btn:hover:not(:disabled) { border-color: var(--ac-primary); color: var(--ac-primary); }
+.ac-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ac-btn--primary { background: var(--ac-primary); border-color: var(--ac-primary); color: #fff; }
+.ac-btn--primary:hover:not(:disabled) { opacity: 0.9; color: #fff; }
+.ac-btn--danger { color: var(--ac-danger); border-color: var(--ac-danger); }
+.ac-btn--danger:hover:not(:disabled) { background: rgba(220, 38, 38, 0.06); color: var(--ac-danger); border-color: var(--ac-danger); }
+.ac-btn--sm { padding: 3px 10px; font-size: 12px; }
+.ac-btn--text { border: none; background: transparent; padding: 4px 6px; color: var(--ac-text-secondary); }
+.ac-btn--text:hover:not(:disabled) { color: var(--ac-primary); }
+
+.ac-input,
+.ac-select,
+.ac-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ac-border);
+  background: var(--ac-bg);
+  color: var(--ac-text);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+.ac-input:focus,
+.ac-select:focus,
+.ac-textarea:focus { border-color: var(--ac-primary); }
+
+.ac-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--ac-bg-soft);
+  color: var(--ac-text-secondary);
+}
