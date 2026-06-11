@@ -1,81 +1,243 @@
+/* ============================================
+   Agent Chat UI — Design System
+   ============================================ */
+
 .ac-root {
-  --ac-primary: #4f6ef7;
-  --ac-primary-soft: rgba(79, 110, 247, 0.1);
+  --ac-primary: #6366f1;
+  --ac-primary-hover: #4f46e5;
+  --ac-primary-soft: rgba(99, 102, 241, 0.08);
+  --ac-primary-softer: rgba(99, 102, 241, 0.04);
   --ac-bg: #ffffff;
-  --ac-bg-soft: #f5f6fa;
-  --ac-border: #e4e7ed;
-  --ac-text: #1f2329;
+  --ac-bg-soft: #f8f9fc;
+  --ac-bg-hover: #f0f1f5;
+  --ac-bg-active: #e8e9ee;
+  --ac-border: #e5e7eb;
+  --ac-border-light: #f0f1f5;
+  --ac-text: #111827;
   --ac-text-secondary: #6b7280;
-  --ac-radius: 10px;
-  --ac-success: #16a34a;
-  --ac-danger: #dc2626;
-  --ac-warning: #d97706;
+  --ac-text-tertiary: #9ca3af;
+  --ac-radius: 12px;
+  --ac-radius-sm: 8px;
+  --ac-radius-lg: 16px;
+  --ac-success: #10b981;
+  --ac-danger: #ef4444;
+  --ac-warning: #f59e0b;
+  --ac-info: #3b82f6;
+  --ac-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ac-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --ac-shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+  --ac-font-size: 14px;
+  --ac-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --ac-sidebar-width: 260px;
+  --ac-header-height: 56px;
+  --ac-avatar-size: 36px;
+  --ac-bubble-radius: 16px;
+  --ac-message-gap: 16px;
+  --ac-max-message-width: 0;
+  --ac-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --ac-user-bubble: var(--ac-primary);
+  --ac-assistant-bubble: var(--ac-bg-soft);
+
   display: flex;
   height: 100%;
   min-height: 0;
   background: var(--ac-bg);
   color: var(--ac-text);
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: var(--ac-font-size);
+  font-family: var(--ac-font-family);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Dark theme */
 .ac-root.ac-dark {
-  --ac-bg: #16181d;
-  --ac-bg-soft: #22252c;
-  --ac-border: #34373f;
-  --ac-text: #e5e7eb;
+  --ac-bg: #0f1117;
+  --ac-bg-soft: #1a1d27;
+  --ac-bg-hover: #22252f;
+  --ac-bg-active: #2a2d37;
+  --ac-border: #2e3140;
+  --ac-border-light: #252836;
+  --ac-text: #f3f4f6;
   --ac-text-secondary: #9ca3af;
+  --ac-text-tertiary: #6b7280;
+  --ac-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --ac-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --ac-shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --ac-assistant-bubble: #1e2030;
 }
 
+/* Background image */
+.ac-root.ac-has-bg { background-size: cover; background-position: center; }
+
+/* Custom scrollbar */
+.ac-root.ac-custom-scroll ::-webkit-scrollbar { width: 6px; }
+.ac-root.ac-custom-scroll ::-webkit-scrollbar-track { background: transparent; }
+.ac-root.ac-custom-scroll ::-webkit-scrollbar-thumb {
+  background: var(--ac-border);
+  border-radius: 3px;
+}
+.ac-root.ac-custom-scroll ::-webkit-scrollbar-thumb:hover { background: var(--ac-text-tertiary); }
+
+/* ============================================ Buttons */
 .ac-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 14px;
-  border-radius: 8px;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--ac-radius-sm);
   border: 1px solid var(--ac-border);
   background: var(--ac-bg);
   color: var(--ac-text);
   cursor: pointer;
   font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
   line-height: 1.4;
-  transition: all 0.15s;
+  transition: all var(--ac-transition);
+  white-space: nowrap;
+  user-select: none;
 }
-.ac-btn:hover:not(:disabled) { border-color: var(--ac-primary); color: var(--ac-primary); }
-.ac-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.ac-btn--primary { background: var(--ac-primary); border-color: var(--ac-primary); color: #fff; }
-.ac-btn--primary:hover:not(:disabled) { opacity: 0.9; color: #fff; }
+.ac-btn:hover:not(:disabled) {
+  border-color: var(--ac-primary);
+  color: var(--ac-primary);
+  background: var(--ac-primary-soft);
+}
+.ac-btn:active:not(:disabled) { transform: scale(0.97); }
+.ac-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.ac-btn--primary {
+  background: var(--ac-primary);
+  border-color: var(--ac-primary);
+  color: #fff;
+  box-shadow: var(--ac-shadow-sm);
+}
+.ac-btn--primary:hover:not(:disabled) {
+  background: var(--ac-primary-hover);
+  border-color: var(--ac-primary-hover);
+  color: #fff;
+}
 .ac-btn--danger { color: var(--ac-danger); border-color: var(--ac-danger); }
-.ac-btn--danger:hover:not(:disabled) { background: rgba(220, 38, 38, 0.06); color: var(--ac-danger); border-color: var(--ac-danger); }
-.ac-btn--sm { padding: 3px 10px; font-size: 12px; }
-.ac-btn--text { border: none; background: transparent; padding: 4px 6px; color: var(--ac-text-secondary); }
-.ac-btn--text:hover:not(:disabled) { color: var(--ac-primary); }
+.ac-btn--danger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.06);
+  color: var(--ac-danger);
+  border-color: var(--ac-danger);
+}
+.ac-btn--sm { padding: 4px 12px; font-size: 12px; border-radius: 6px; }
+.ac-btn--text {
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  color: var(--ac-text-secondary);
+}
+.ac-btn--text:hover:not(:disabled) { color: var(--ac-primary); background: var(--ac-primary-softer); }
+.ac-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--ac-radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--ac-text-secondary);
+}
+.ac-btn--icon:hover:not(:disabled) { background: var(--ac-bg-hover); color: var(--ac-text); }
 
+/* ============================================ Inputs */
 .ac-input,
 .ac-select,
 .ac-textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 7px 10px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: var(--ac-radius-sm);
   border: 1px solid var(--ac-border);
   background: var(--ac-bg);
   color: var(--ac-text);
   font-size: 13px;
-  outline: none;
   font-family: inherit;
+  outline: none;
+  transition: border-color var(--ac-transition), box-shadow var(--ac-transition);
 }
 .ac-input:focus,
 .ac-select:focus,
-.ac-textarea:focus { border-color: var(--ac-primary); }
+.ac-textarea:focus {
+  border-color: var(--ac-primary);
+  box-shadow: 0 0 0 3px var(--ac-primary-soft);
+}
+.ac-input::placeholder,
+.ac-textarea::placeholder { color: var(--ac-text-tertiary); }
 
+/* ============================================ Tags */
 .ac-tag {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 1px 8px;
+  padding: 2px 10px;
   border-radius: 999px;
   font-size: 12px;
   background: var(--ac-bg-soft);
   color: var(--ac-text-secondary);
+  border: 1px solid var(--ac-border-light);
 }
+
+/* ============================================ Animations */
+@keyframes ac-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ac-slide-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes ac-spin { to { transform: rotate(360deg); } }
+@keyframes ac-blink { 50% { opacity: 0; } }
+@keyframes ac-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes ac-typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+/* Typing indicator */
+.ac-typing { display: inline-flex; align-items: center; gap: 4px; padding: 4px 2px; }
+.ac-typing__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ac-text-tertiary);
+  animation: ac-typing-bounce 1.2s infinite;
+}
+.ac-typing__dot:nth-child(2) { animation-delay: 0.15s; }
+.ac-typing__dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* Message enter animation */
+.ac-msg-enter { animation: ac-fade-in 0.3s ease-out; }
+
+/* Skeleton loading */
+.ac-skeleton {
+  background: linear-gradient(90deg, var(--ac-bg-soft) 25%, var(--ac-bg-hover) 50%, var(--ac-bg-soft) 75%);
+  background-size: 200% 100%;
+  animation: ac-skeleton-wave 1.5s infinite;
+  border-radius: var(--ac-radius-sm);
+}
+@keyframes ac-skeleton-wave { to { background-position: -200% 0; } }
+
+/* Tooltip */
+.ac-tooltip {
+  position: relative;
+}
+.ac-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--ac-text);
+  color: var(--ac-bg);
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.15s;
+}
+.ac-tooltip:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }

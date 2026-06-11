@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { FormFieldSchema } from '../../types'
+import type { Locale } from '../../i18n'
+import { getLocale } from '../../i18n'
 
-defineProps<{
+const props = defineProps<{
   fields: FormFieldSchema[]
   values: Record<string, unknown>
   errors: Record<string, string>
   disabled?: boolean
+  locale?: Locale
 }>()
+
+const t = computed(() => props.locale ?? getLocale())
 
 const emit = defineEmits<{ update: [key: string, value: unknown] }>()
 
@@ -66,7 +72,7 @@ function onInput(key: string, value: unknown) {
         :disabled="disabled"
         @change="onInput(field.key, ($event.target as HTMLSelectElement).value)"
       >
-        <option value="" disabled>{{ field.placeholder || '请选择' }}</option>
+        <option value="" disabled>{{ field.placeholder || t.selectPlaceholder }}</option>
         <option v-for="opt in field.options" :key="String(opt.value)" :value="String(opt.value)">
           {{ opt.label }}
         </option>
@@ -109,7 +115,7 @@ function onInput(key: string, value: unknown) {
           :disabled="disabled"
           @change="onInput(field.key, ($event.target as HTMLInputElement).checked)"
         />
-        {{ field.placeholder || '开启' }}
+        {{ field.placeholder || t.enabled }}
       </label>
 
       <div v-if="field.helpText" class="ac-form-field__help">{{ field.helpText }}</div>

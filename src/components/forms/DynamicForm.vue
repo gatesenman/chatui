@@ -2,8 +2,12 @@
 import { computed, reactive, ref } from 'vue'
 import type { FormBlock, FormFieldSchema, FormSubmitPayload } from '../../types'
 import FormFields from './FormFields.vue'
+import type { Locale } from '../../i18n'
+import { getLocale } from '../../i18n'
 
-const props = defineProps<{ block: FormBlock; messageId: string }>()
+const props = defineProps<{ block: FormBlock; messageId: string; locale?: Locale }>()
+
+const t = computed(() => props.locale ?? getLocale())
 const emit = defineEmits<{ submit: [payload: FormSubmitPayload] }>()
 
 const isMultiStep = computed(() => props.block.steps.length > 1)
@@ -26,17 +30,17 @@ function validateFields(fields: FormFieldSchema[]): boolean {
     const v = values[f.key]
     const empty = v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0)
     if (f.required && empty) {
-      errors[f.key] = `${f.label}为必填项`
+      errors[f.key] = `${f.label}${t.value.required}`
       ok = false
       continue
     }
     if (!empty && f.pattern && typeof v === 'string' && !new RegExp(f.pattern).test(v)) {
-      errors[f.key] = f.patternMessage || `${f.label}格式不正确`
+      errors[f.key] = f.patternMessage || `${f.label}${t.value.formatError}`
       ok = false
     }
     if (!empty && typeof v === 'number') {
-      if (f.min !== undefined && v < f.min) { errors[f.key] = `${f.label}不能小于${f.min}`; ok = false }
-      if (f.max !== undefined && v > f.max) { errors[f.key] = `${f.label}不能大于${f.max}`; ok = false }
+      if (f.min !== undefined && v < f.min) { errors[f.key] = `${f.label}${t.value.minError}${f.min}`; ok = false }
+      if (f.max !== undefined && v > f.max) { errors[f.key] = `${f.label}${t.value.maxError}${f.max}`; ok = false }
     }
   }
   return ok
@@ -94,7 +98,10 @@ function displayValue(f: FormFieldSchema): string {
           class="ac-form__step"
           :class="{ 'is-active': i === currentStep, 'is-done': i < currentStep }"
         >
-          <span class="ac-form__step-index">{{ i < currentStep ? 'OK' : i + 1 }}</span>
+          <span class="ac-form__step-index">
+            <svg v-if="i < currentStep" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <template v-else>{{ i + 1 }}</template>
+          </span>
           <span class="ac-form__step-title">{{ step.title }}</span>
         </div>
       </div>
@@ -106,12 +113,13 @@ function displayValue(f: FormFieldSchema): string {
         :fields="block.steps[currentStep].fields"
         :values="values"
         :errors="errors"
+        :locale="t"
         @update="onUpdate"
       />
 
       <div class="ac-form__actions">
         <button v-if="isMultiStep && currentStep > 0" class="ac-btn" type="button" @click="prevStep">
-          上一步
+          {{ t.prevStep }}
         </button>
         <button
           v-if="isMultiStep && currentStep < block.steps.length - 1"
@@ -119,10 +127,10 @@ function displayValue(f: FormFieldSchema): string {
           type="button"
           @click="nextStep"
         >
-          下一步
+          {{ t.nextStep }}
         </button>
         <button v-else class="ac-btn ac-btn--primary" type="button" @click="submit">
-          {{ block.submitText || '提交' }}
+          {{ block.submitText || t.submit }}
         </button>
       </div>
     </template>
@@ -134,7 +142,10 @@ function displayValue(f: FormFieldSchema): string {
           <span class="ac-form__summary-value">{{ displayValue(f) }}</span>
         </div>
       </div>
-      <div class="ac-form__submitted-tag">已提交</div>
+      <div class="ac-form__submitted-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ t.submitted }}
+      </div>
     </template>
   </div>
 </template>
@@ -142,11 +153,12 @@ function displayValue(f: FormFieldSchema): string {
 <style>
 .ac-form {
   border: 1px solid var(--ac-border);
-  border-radius: 10px;
-  padding: 14px;
-  margin: 4px 0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 6px 0;
   max-width: 460px;
   background: var(--ac-bg);
+  box-shadow: var(--ac-shadow-sm);
 }
 .ac-form__title { font-weight: 600; margin-bottom: 4px; }
 .ac-form__desc { font-size: 12.5px; color: var(--ac-text-secondary); margin-bottom: 12px; }
@@ -170,5 +182,5 @@ function displayValue(f: FormFieldSchema): string {
 .ac-form__summary { display: flex; flex-direction: column; gap: 6px; }
 .ac-form__summary-row { display: flex; font-size: 13px; gap: 10px; }
 .ac-form__summary-label { color: var(--ac-text-secondary); min-width: 90px; }
-.ac-form__submitted-tag { margin-top: 10px; font-size: 12px; color: var(--ac-success); }
+.ac-form__submitted-tag { margin-top: 10px; font-size: 12px; color: var(--ac-success); display: inline-flex; align-items: center; gap: 4px; }
 </style>

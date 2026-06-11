@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import type { HitlActionPayload, HitlActionType, HitlBlock } from '../../types'
+import type { Locale } from '../../i18n'
+import { getLocale } from '../../i18n'
 
-const props = defineProps<{ block: HitlBlock; messageId: string }>()
+const props = defineProps<{ block: HitlBlock; messageId: string; locale?: Locale }>()
+
+const t = computed(() => props.locale ?? getLocale())
 const emit = defineEmits<{ action: [payload: HitlActionPayload] }>()
 
 const resolved = ref(props.block.resolved ?? false)
@@ -14,14 +18,14 @@ const editValues = reactive<Record<string, unknown>>(
   Object.fromEntries(props.block.fields.map((f) => [f.key, f.value]))
 )
 
-const ACTION_LABELS: Record<HitlActionType, string> = {
-  approve: '同意',
-  reject: '拒绝',
-  modify: '修改',
-  supplement: '补充信息'
-}
+const actionLabels = computed<Record<HitlActionType, string>>(() => ({
+  approve: t.value.approve,
+  reject: t.value.reject,
+  modify: t.value.modify,
+  supplement: t.value.supplement
+}))
 
-const resolutionText = computed(() => (resolution.value ? ACTION_LABELS[resolution.value] : ''))
+const resolutionText = computed(() => (resolution.value ? actionLabels.value[resolution.value] : ''))
 
 function doAction(action: HitlActionType) {
   if (action === 'approve') {
@@ -63,7 +67,7 @@ function finish(action: HitlActionType, extra: Partial<HitlActionPayload>) {
 <template>
   <div class="ac-hitl" :class="{ 'is-resolved': resolved }">
     <div class="ac-hitl__header">
-      <span class="ac-hitl__badge">需要确认</span>
+      <span class="ac-hitl__badge">{{ resolved ? t.resolved : t.needConfirm }}</span>
       <span class="ac-hitl__title">{{ block.title }}</span>
     </div>
     <div v-if="block.description" class="ac-hitl__desc">{{ block.description }}</div>
@@ -90,30 +94,30 @@ function finish(action: HitlActionType, extra: Partial<HitlActionPayload>) {
             type="button"
             @click="doAction(action)"
           >
-            {{ ACTION_LABELS[action] }}
+            {{ actionLabels[action] }}
           </button>
         </template>
       </div>
       <div v-else-if="mode === 'modify'" class="ac-hitl__actions">
-        <button class="ac-btn ac-btn--sm" type="button" @click="mode = 'view'">取消</button>
-        <button class="ac-btn ac-btn--sm ac-btn--primary" type="button" @click="confirmModify">确认修改并提交</button>
+        <button class="ac-btn ac-btn--sm" type="button" @click="mode = 'view'">{{ t.cancel }}</button>
+        <button class="ac-btn ac-btn--sm ac-btn--primary" type="button" @click="confirmModify">{{ t.confirmModify }}</button>
       </div>
       <div v-else class="ac-hitl__comment">
         <textarea
           v-model="comment"
           class="ac-textarea"
           rows="2"
-          :placeholder="mode === 'reject' ? '请输入拒绝原因（可选）' : '请补充信息'"
+          :placeholder="mode === 'reject' ? t.rejectReasonPlaceholder : t.supplementPlaceholder"
         />
         <div class="ac-hitl__actions">
-          <button class="ac-btn ac-btn--sm" type="button" @click="mode = 'view'">取消</button>
+          <button class="ac-btn ac-btn--sm" type="button" @click="mode = 'view'">{{ t.cancel }}</button>
           <button
             class="ac-btn ac-btn--sm"
             :class="mode === 'reject' ? 'ac-btn--danger' : 'ac-btn--primary'"
             type="button"
             @click="mode === 'reject' ? confirmReject() : confirmSupplement()"
           >
-            {{ mode === 'reject' ? '确认拒绝' : '提交补充' }}
+            {{ mode === 'reject' ? t.confirmReject : t.submitSupplement }}
           </button>
         </div>
       </div>
@@ -123,7 +127,7 @@ function finish(action: HitlActionType, extra: Partial<HitlActionPayload>) {
         class="ac-hitl__resolved-tag"
         :class="resolution === 'reject' ? 'is-reject' : 'is-approve'"
       >
-        已{{ resolutionText }}
+        {{ resolutionText }}
       </span>
       <span v-if="block.resolutionComment" class="ac-hitl__resolved-comment">{{ block.resolutionComment }}</span>
     </div>
@@ -133,11 +137,13 @@ function finish(action: HitlActionType, extra: Partial<HitlActionPayload>) {
 <style>
 .ac-hitl {
   border: 1px solid var(--ac-warning);
-  border-radius: 10px;
-  padding: 14px;
-  margin: 4px 0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 6px 0;
   max-width: 460px;
   background: var(--ac-bg);
+  box-shadow: var(--ac-shadow-sm);
+  transition: border-color var(--ac-transition);
 }
 .ac-hitl.is-resolved { border-color: var(--ac-border); }
 .ac-hitl__header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }

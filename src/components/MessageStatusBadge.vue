@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import type { MessageStatus } from '../types'
+import type { Locale } from '../i18n'
 
-defineProps<{ status: MessageStatus }>()
+const props = defineProps<{ status: MessageStatus; locale: Locale }>()
 
-const LABELS: Record<MessageStatus, string> = {
-  pending: '排队中',
-  thinking: '思考中',
-  running: '执行中',
-  streaming: '回复中',
-  waiting_hitl: '等待确认',
-  completed: '完成',
-  failed: '失败',
-  canceled: '已停止'
+const statusConfig: Record<MessageStatus, { class: string; key: keyof Locale }> = {
+  pending: { class: 'ac-status--muted', key: 'pending' },
+  thinking: { class: 'ac-status--info', key: 'thinking' },
+  running: { class: 'ac-status--info', key: 'running' },
+  streaming: { class: 'ac-status--info', key: 'streaming' },
+  waiting_hitl: { class: 'ac-status--warning', key: 'waitingConfirm' },
+  completed: { class: 'ac-status--success', key: 'completed' },
+  failed: { class: 'ac-status--danger', key: 'failed' },
+  canceled: { class: 'ac-status--muted', key: 'canceled' }
 }
 </script>
 
 <template>
-  <span class="ac-status" :class="`is-${status}`">
-    <span
-      v-if="['pending', 'thinking', 'running', 'streaming'].includes(status)"
-      class="ac-status__spinner"
-    />
-    {{ LABELS[status] }}
+  <span class="ac-status" :class="statusConfig[status]?.class">
+    <span v-if="status === 'thinking' || status === 'running' || status === 'streaming'" class="ac-status__spinner"></span>
+    {{ props.locale[statusConfig[status]?.key ?? 'pending'] }}
   </span>
 </template>
 
@@ -29,20 +27,22 @@ const LABELS: Record<MessageStatus, string> = {
 .ac-status {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-size: 12px;
-  padding: 1px 8px;
+  font-weight: 500;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: var(--ac-bg-soft);
-  color: var(--ac-text-secondary);
+  line-height: 1.4;
 }
-.ac-status.is-failed { color: var(--ac-danger); background: rgba(220, 38, 38, 0.08); }
-.ac-status.is-waiting_hitl { color: var(--ac-warning); background: rgba(217, 119, 6, 0.1); }
-.ac-status.is-completed { color: var(--ac-success); background: rgba(22, 163, 74, 0.08); }
+.ac-status--info { color: var(--ac-info); background: rgba(59, 130, 246, 0.08); }
+.ac-status--warning { color: var(--ac-warning); background: rgba(245, 158, 11, 0.08); }
+.ac-status--success { color: var(--ac-success); background: rgba(16, 185, 129, 0.08); }
+.ac-status--danger { color: var(--ac-danger); background: rgba(239, 68, 68, 0.08); }
+.ac-status--muted { color: var(--ac-text-tertiary); background: var(--ac-bg-hover); }
 .ac-status__spinner {
   width: 10px;
   height: 10px;
-  border: 1.5px solid var(--ac-primary);
+  border: 1.5px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
   animation: ac-spin 0.8s linear infinite;

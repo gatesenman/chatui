@@ -215,6 +215,34 @@ export interface ChatbotTheme {
   /** 'bubble' 气泡布局 | 'document' 文档流布局 */
   layout?: 'bubble' | 'document'
   dark?: boolean
+  /** 头像形状 */
+  avatarShape?: 'circle' | 'square' | 'rounded'
+  /** 头像尺寸（px） */
+  avatarSize?: number
+  /** 气泡圆角（px） */
+  bubbleRadius?: number
+  /** 字体大小（px） */
+  fontSize?: number
+  /** 侧边栏宽度（px） */
+  sidebarWidth?: number
+  /** 消息区最大宽度（px），0 = 不限制 */
+  maxMessageWidth?: number
+  /** 是否显示气泡阴影 */
+  bubbleShadow?: boolean
+  /** 是否显示自定义滚动条 */
+  customScrollbar?: boolean
+  /** 消息间距（px） */
+  messageGap?: number
+  /** 头部高度（px） */
+  headerHeight?: number
+  /** 圆角大小（px），全局控制 */
+  borderRadius?: number
+  /** 背景图 */
+  backgroundImage?: string
+  /** 消息气泡用户侧颜色 */
+  userBubbleColor?: string
+  /** 消息气泡助手侧颜色 */
+  assistantBubbleColor?: string
 }
 
 /** Chatbot 总配置 */
@@ -233,6 +261,31 @@ export interface ChatbotConfig {
   enableFeedback?: boolean
   /** 占位文案 */
   inputPlaceholder?: string
+  /** 国际化语言 'zh-CN' | 'en-US'，默认 zh-CN */
+  locale?: string
+  /** 时间戳格式 */
+  timestampFormat?: 'relative' | 'time' | 'datetime' | 'hidden'
+  /** 是否允许复制整条消息 */
+  enableCopyMessage?: boolean
+  /** 消息按时间分组间隔（分钟，0=不分组） */
+  messageGroupInterval?: number
+  /** 自动滚动策略 */
+  autoScrollStrategy?: 'always' | 'smart' | 'never'
+  /** 是否显示打字指示器动画 */
+  showTypingIndicator?: boolean
+  /** 是否显示"回到最新"按钮 */
+  showScrollToBottom?: boolean
+  /** 空状态自定义文案 */
+  emptyStateTitle?: string
+  emptyStateDescription?: string
+  /** CSS 类名注入 */
+  className?: {
+    root?: string
+    header?: string
+    sidebar?: string
+    messageList?: string
+    input?: string
+  }
 }
 
 /** SSE 流式事件协议 */

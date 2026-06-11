@@ -28,6 +28,7 @@ const config = reactive<ChatbotConfig>({
   ],
   input: { text: true, voice: true, file: true, image: true },
   theme: { title: '企业智能助手', primaryColor: '#4f6ef7', layout: 'bubble' },
+  locale: 'zh-CN',
   showSessions: true,
   allowStop: true,
   enableFeedback: true
@@ -245,6 +246,13 @@ function onSessionRename(id: string, title: string) {
         <select v-model="config.theme!.layout">
           <option value="bubble">气泡</option>
           <option value="document">文档</option>
+        </select>
+      </label>
+      <label>
+        语言
+        <select v-model="config.locale">
+          <option value="zh-CN">中文</option>
+          <option value="en-US">English</option>
         </select>
       </label>
     </div>
