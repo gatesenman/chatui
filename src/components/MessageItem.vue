@@ -33,6 +33,12 @@ const emit = defineEmits<{
 const isUser = computed(() => props.message.role === 'user')
 const layout = computed(() => props.theme.layout ?? 'bubble')
 const hasShadow = computed(() => props.theme.bubbleShadow !== false)
+/**
+ * Rich blocks (steps, tables, charts, forms, approvals, code, files) size themselves to their
+ * container, so a shrink-to-fit bubble would squeeze them; such bubbles use the full message width.
+ */
+const RICH_BLOCKS = new Set(['code', 'table', 'chart', 'file', 'form', 'hitl', 'steps'])
+const isRich = computed(() => props.message.blocks.some((b: ContentBlock) => RICH_BLOCKS.has(b.type)))
 const avatarShape = computed(() => props.theme.avatarShape ?? 'circle')
 const showCopy = computed(() => props.config.enableCopyMessage !== false && !isUser.value)
 const copyState = ref<'idle' | 'copied'>('idle')
@@ -86,7 +92,10 @@ const isStreaming = computed(() => {
     </div>
 
     <!-- Content -->
-    <div class="ac-msg__body" :class="{ 'ac-msg__body--shadow': hasShadow && layout === 'bubble' }">
+    <div
+      class="ac-msg__body"
+      :class="{ 'ac-msg__body--shadow': hasShadow && layout === 'bubble', 'ac-msg__body--rich': isRich }"
+    >
       <!-- Status badge -->
       <MessageStatusBadge
         v-if="!isUser && message.status !== 'completed'"
@@ -230,6 +239,7 @@ const isStreaming = computed(() => {
   gap: 8px;
 }
 .ac-msg--document .ac-msg__body { max-width: 100%; }
+.ac-msg--bubble .ac-msg__body--rich { width: var(--ac-max-message-width, 85%); }
 
 .ac-msg--bubble.ac-msg--user .ac-msg__body {
   background: var(--ac-user-bubble);
