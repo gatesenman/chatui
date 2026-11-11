@@ -6,9 +6,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaosichun888/chatui"
+    "url": "https://github.com/gatesenman/chatui"
   },
-  "keywords": ["vue3", "chatbot", "agent", "ai", "sse", "hitl", "component-library"],
+  "keywords": [
+    "vue3",
+    "chatbot",
+    "agent",
+    "ai",
+    "sse",
+    "hitl",
+    "component-library"
+  ],
   "type": "module",
   "main": "./dist/agent-chat-ui.umd.cjs",
   "module": "./dist/agent-chat-ui.js",
@@ -25,11 +33,11 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite demo",
-    "build": "vite build",
+    "dev": "vite --mode demo",
+    "build": "vite build && vue-tsc -p tsconfig.build.json",
     "build:demo": "vite build --mode demo",
     "typecheck": "vue-tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview --mode demo"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

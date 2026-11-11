@@ -50,9 +50,7 @@ cd chatui
 npm ci
 
 # 启动 Demo（热更新）
-# 注意：`npm run dev`（即 `vite demo`）不会读取根目录的 vite.config.ts，
-# 会报 `@agent/chat-ui` 无法解析，需显式指定配置：
-npx vite demo --config vite.config.ts      # http://localhost:5173/
+npm run dev                                # http://localhost:5173/
 
 # 构建 Demo 静态站点到 dist-demo/（GitHub Pages 工作流使用的命令）
 npm run build:demo
@@ -127,10 +125,9 @@ async function onSend({ text }: { text: string }) {
 
 ## 已知问题
 
-- `npm run dev` 会报 `@agent/chat-ui` 无法解析：`vite demo` 会去 `demo/` 目录下找配置文件。请改用 `npx vite demo --config vite.config.ts`（见快速开始）。
-- **气泡布局**下，包含富内容块（执行步骤、表格、图表）的助手消息在 Demo 中会被压缩成很窄的一列；文档布局显示正常。
-- `package.json` 中 `types` 指向 `dist/index.d.ts`、`./style.css` 指向 `dist/agent-chat-ui.css`，但目前 `npm run build` 产出的是 `dist/style.css`，且不生成 `.d.ts`。
-- 该包尚未发布到 npm；`package.json` 的 `repository` 仍指向 `gaosichun888/chatui`。
+- 该包尚未发布到 npm。
+
+`npm run build` 现在产出 `dist/agent-chat-ui.{js,umd.cjs,css}` 以及 `dist/index.d.ts`（和各组件的 `.d.ts`），与 `exports` 一致；`vue`、`marked`、`highlight.js` 不再被打进组件库。`npm run dev` 可直接启动 Demo；气泡布局下的富内容消息使用完整消息宽度。
 
 ## 参与贡献
 

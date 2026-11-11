@@ -33,7 +33,7 @@
   --ac-avatar-size: 36px;
   --ac-bubble-radius: 16px;
   --ac-message-gap: 16px;
-  --ac-max-message-width: 0;
+  --ac-max-message-width: 85%;
   --ac-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --ac-user-bubble: var(--ac-primary);
   --ac-assistant-bubble: var(--ac-bg-soft);

@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
       resolve: { alias: { '@agent/chat-ui': resolve(__dirname, 'src/index.ts') } },
       root: 'demo',
       base: './',
+      server: { port: 5173 },
       build: { outDir: resolve(__dirname, 'dist-demo'), emptyOutDir: true }
     }
   }
@@ -22,10 +23,18 @@ export default defineConfig(({ mode }) => {
         fileName: 'agent-chat-ui'
       },
       rollupOptions: {
-        external: ['vue'],
-        output: { globals: { vue: 'Vue' } }
+        // vue is a peer dependency; marked / highlight.js are regular dependencies, so they are
+        // installed alongside the package and must not be bundled a second time.
+        external: ['vue', 'marked', /^highlight\.js$/],
+        output: {
+          exports: 'named',
+          globals: { vue: 'Vue', marked: 'marked', 'highlight.js': 'hljs' },
+          // Vite 5 names the extracted lib CSS "style.css"; package.json exports "./style.css"
+          // as dist/agent-chat-ui.css, so keep the file name in sync with the exports map.
+          assetFileNames: (asset) =>
+            asset.name === 'style.css' ? 'agent-chat-ui.css' : 'assets/[name]-[hash][extname]'
+        }
       }
-    },
-    server: { port: 5173 }
+    }
   }
 })

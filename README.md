@@ -49,10 +49,8 @@ git clone https://github.com/gatesenman/chatui.git
 cd chatui
 npm ci
 
-# Run the demo with hot reload.
-# Note: `npm run dev` (= `vite demo`) does not pick up the root vite.config.ts, so the
-# `@agent/chat-ui` alias fails to resolve. Pass the config explicitly:
-npx vite demo --config vite.config.ts      # http://localhost:5173/
+# Run the demo with hot reload
+npm run dev                                # http://localhost:5173/
 
 # Build the demo as a static site into dist-demo/ (what the GitHub Pages workflow runs)
 npm run build:demo
@@ -127,10 +125,9 @@ Everything is configured through the `config` prop (`ChatbotConfig` in `src/type
 
 ## Known issues
 
-- `npm run dev` fails with "`@agent/chat-ui` could not be resolved" because `vite demo` looks for the config inside `demo/`; use `npx vite demo --config vite.config.ts` instead (see Quick start).
-- In the **bubble** layout, assistant messages that contain rich blocks (steps, tables, charts) collapse to a very narrow column in the demo; the document layout renders correctly.
-- `package.json` points `types` to `dist/index.d.ts` and `./style.css` to `dist/agent-chat-ui.css`, but `npm run build` currently emits `dist/style.css` and no `.d.ts` files.
-- The package is not published to npm yet; `repository` in `package.json` still points to `gaosichun888/chatui`.
+- The package is not published to npm yet.
+
+`npm run build` now emits `dist/agent-chat-ui.{js,umd.cjs,css}` plus `dist/index.d.ts` (and per-component `.d.ts`), matching the `exports` map; `vue`, `marked` and `highlight.js` are no longer bundled into the library. `npm run dev` starts the demo directly, and rich messages in the bubble layout use the full message width.
 
 ## Contributing
 
