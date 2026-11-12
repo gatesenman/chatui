@@ -2,13 +2,21 @@
   "name": "agent-chatbot-ui-vue",
   "version": "0.1.0",
   "description": "Generic Vue 3 Agent Chatbot UI component library",
-  "author": "gaosichun888",
+  "author": "gatesenman",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaosichun888/chatui"
+    "url": "https://github.com/gatesenman/chatui"
   },
-  "keywords": ["vue3", "chatbot", "agent", "ai", "sse", "hitl", "component-library"],
+  "keywords": [
+    "vue3",
+    "chatbot",
+    "agent",
+    "ai",
+    "sse",
+    "hitl",
+    "component-library"
+  ],
   "type": "module",
   "main": "./dist/agent-chat-ui.umd.cjs",
   "module": "./dist/agent-chat-ui.js",
