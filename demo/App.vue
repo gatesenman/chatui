@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import HelpCenter from './help/HelpCenter.vue'
 import {
   AgentChatbot,
@@ -14,6 +14,7 @@ import {
   type SendMessagePayload
 } from '@agent/chat-ui'
 import { runMockAgent } from './mockAgent'
+import { loadSessions, messagesToMarkdown, saveSessions } from '@agent/chat-ui'
 
 const config = reactive<ChatbotConfig>({
   welcomeTitle: '你好，我是企业智能助手',
@@ -45,7 +46,9 @@ const uid = (prefix: string) => `${prefix}-${Date.now()}-${++idSeq}`
 const sessionsData = reactive<SessionData[]>([])
 const activeSessionId = ref<string | null>(null)
 const busy = ref(false)
+const exportHint = ref('')
 let abortController: AbortController | null = null
+let persistReady = false
 
 function createSession(): SessionData {
   const session: ChatSession = {
@@ -60,7 +63,43 @@ function createSession(): SessionData {
   return data
 }
 
-createSession()
+const restored = typeof localStorage !== 'undefined' ? loadSessions(localStorage) : null
+if (restored && restored.sessions.length) {
+  for (const item of restored.sessions) {
+    sessionsData.push({ session: item.session, messages: reactive(item.messages) })
+  }
+  activeSessionId.value = restored.activeId ?? sessionsData[0].session.id
+} else {
+  createSession()
+}
+persistReady = true
+
+watch(
+  [sessionsData, activeSessionId],
+  () => {
+    if (!persistReady || typeof localStorage === 'undefined') return
+    saveSessions(
+      localStorage,
+      sessionsData.map((d) => ({ session: d.session, messages: [...d.messages] })),
+      activeSessionId.value,
+    )
+  },
+  { deep: true },
+)
+
+function exportActiveMarkdown() {
+  const data = active.value
+  if (!data) return
+  const md = messagesToMarkdown(data.session.title, data.messages)
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = (data.session.title || 'conversation') + '.md'
+  a.click()
+  URL.revokeObjectURL(a.href)
+  exportHint.value = 'exported'
+}
+
 
 const active = computed(() => sessionsData.find((d) => d.session.id === activeSessionId.value))
 const sessions = computed(() => sessionsData.map((d) => d.session))
@@ -233,6 +272,7 @@ function onSessionRename(id: string, title: string) {
     <div class="demo__toolbar">
       <strong>Agent Chat UI Demo</strong>
       <button class="demo__help-btn" type="button" @click="page = 'help'">[?] 帮助中心</button>
+      <button class="demo__help-btn" type="button" @click="exportActiveMarkdown">导出 Markdown / Export Markdown</button>
       <label><input v-model="config.showSessions" type="checkbox" /> 会话侧边栏</label>
       <label><input v-model="config.input!.voice" type="checkbox" /> 语音输入</label>
       <label><input v-model="config.input!.file" type="checkbox" /> 文件上传</label>

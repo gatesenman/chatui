@@ -20,6 +20,8 @@ import ApprovalCard from './components/hitl/ApprovalCard.vue'
 import ExecutionSteps from './components/run/ExecutionSteps.vue'
 
 export * from './types'
+export { loadSessions, saveSessions, messagesToMarkdown, SESSION_STORAGE_KEY } from './sessionPersist'
+export type { StoredSession, StoredState, MemoryStorage } from './sessionPersist'
 export { zhCN, enUS, getLocale } from './i18n'
 export type { Locale } from './i18n'
 export { applyStreamEvent, connectSSE, parseStreamEvent } from './composables/useStreamEvents'
