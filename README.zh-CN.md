@@ -138,3 +138,9 @@ async function onSend({ text }: { text: string }) {
 ## 许可证
 
 `package.json` 中声明为 **MIT**，但仓库暂未包含 LICENSE 文件。
+
+## 界面预览
+
+本机打开的演示：查询销售报表后，可点 **导出 Markdown**。
+
+![ChatUI 演示与 Markdown 导出](docs/screenshots/demo-export-markdown.png)

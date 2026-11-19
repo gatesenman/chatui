@@ -138,3 +138,9 @@ Issues and pull requests are welcome. Please run `npm run typecheck` and `npm ru
 ## License
 
 `package.json` declares **MIT**, but the repository does not contain a LICENSE file yet.
+
+## Screenshots
+
+The demo running locally, after asking for a sales report and using **Export Markdown**.
+
+![ChatUI demo with Markdown export](docs/screenshots/demo-export-markdown.png)
