@@ -22,7 +22,7 @@ import ExecutionSteps from './components/run/ExecutionSteps.vue'
 export * from './types'
 export { zhCN, enUS, getLocale } from './i18n'
 export type { Locale } from './i18n'
-export { applyStreamEvent, connectSSE } from './composables/useStreamEvents'
+export { applyStreamEvent, connectSSE, parseStreamEvent } from './composables/useStreamEvents'
 export type { SSEClientOptions } from './composables/useStreamEvents'
 
 export {
