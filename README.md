@@ -4,6 +4,8 @@
 
 A generic **Vue 3 component library for AI-agent chatbots** (npm package name `agent-chatbot-ui-vue`). A single `<AgentChatbot>` component gives you a session sidebar, streaming replies, rich content blocks (Markdown, code, tables, charts, files), dynamic forms, human-in-the-loop (HITL) approval cards, execution-step visualization and feedback. Every sub-component is also exported. The repo ships a demo app backed by a mock agent, so you can try everything without a backend.
 
+**0.2.0:** the demo now restores threads from `localStorage` after a reload and can export the active conversation as a Markdown file.
+
 ## Features
 
 - **`AgentChatbot` all-in-one component**: session list (create / rename / delete / search), welcome block with quick actions, message list, input box, stop / retry.
@@ -136,3 +138,9 @@ Issues and pull requests are welcome. Please run `npm run typecheck` and `npm ru
 ## License
 
 `package.json` declares **MIT**, but the repository does not contain a LICENSE file yet.
+
+## Screenshots
+
+The demo running locally, after asking for a sales report and using **Export Markdown**.
+
+![ChatUI demo with Markdown export](docs/screenshots/demo-export-markdown.png)

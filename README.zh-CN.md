@@ -4,6 +4,8 @@
 
 一个通用的 **Vue 3 AI Agent 聊天机器人组件库**（npm 包名 `agent-chatbot-ui-vue`）。一个 `<AgentChatbot>` 组件即可获得会话侧栏、流式回复、富内容块（Markdown、代码、表格、图表、文件）、动态表单、人工确认（HITL）卡片、执行过程可视化和反馈能力；所有子组件也都单独导出。仓库自带一个基于 Mock Agent 的 Demo，无需后端即可体验全部功能。
 
+**0.2.0：** Demo 会把会话存进 `localStorage`，刷新后还能恢复，也可以把当前会话导出为 Markdown 文件。
+
 ## 功能
 
 - **`AgentChatbot` 一体化组件**：会话列表（新建 / 重命名 / 删除 / 搜索）、欢迎区与快捷指令、消息列表、输入框、停止 / 重试。
@@ -136,3 +138,9 @@ async function onSend({ text }: { text: string }) {
 ## 许可证
 
 `package.json` 中声明为 **MIT**，但仓库暂未包含 LICENSE 文件。
+
+## 界面预览
+
+本机打开的演示：查询销售报表后，可点 **导出 Markdown**。
+
+![ChatUI 演示与 Markdown 导出](docs/screenshots/demo-export-markdown.png)
