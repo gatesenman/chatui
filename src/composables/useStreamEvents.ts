@@ -4,6 +4,23 @@ import type { ChatMessage, ContentBlock, StreamEvent } from '../types'
  * 将一条 SSE 流式事件应用到消息列表（原地修改）。
  * 后端通过 SSE 推送 StreamEvent，前端逐条调用本函数即可完成增量渲染。
  */
+
+/** Parses one SSE `data:` payload into a StreamEvent. Malformed JSON, the
+ *  standard `[DONE]` marker, and objects without type/messageId are ignored.
+ */
+export function parseStreamEvent(data: string): StreamEvent | null {
+  const text = data.trim()
+  if (!text || text === '[DONE]') return null
+  try {
+    const ev = JSON.parse(text) as Partial<StreamEvent>
+    if (!ev || typeof ev !== 'object') return null
+    if (typeof ev.type !== 'string' || typeof ev.messageId !== 'string') return null
+    return ev as StreamEvent
+  } catch {
+    return null
+  }
+}
+
 export function applyStreamEvent(messages: ChatMessage[], event: StreamEvent): void {
   const msg = messages.find((m) => m.id === event.messageId)
   if (!msg) return
@@ -87,13 +104,8 @@ export async function connectSSE(options: SSEClientOptions): Promise<void> {
       for (const part of parts) {
         for (const line of part.split('\n')) {
           if (!line.startsWith('data:')) continue
-          const data = line.slice(5).trim()
-          if (!data || data === '[DONE]') continue
-          try {
-            onEvent(JSON.parse(data) as StreamEvent)
-          } catch {
-            // 忽略无法解析的事件
-          }
+          const ev = parseStreamEvent(line.slice(5))
+          if (ev) onEvent(ev)
         }
       }
     }
