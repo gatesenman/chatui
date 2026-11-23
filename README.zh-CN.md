@@ -21,13 +21,11 @@
 
 ## 截图
 
-以下截图均来自本地运行的 Demo（`demo/`），数据由仓库内的 Mock Agent（`demo/mockAgent.ts`）生成，由无头 Chromium 实拍。除欢迎页外，其余截图使用 Demo 中的「文档」布局。
+以下图片来自尚未合并的 `docs/bilingual-readme` 分支，已目视确认为本地 Demo（`demo/`，标题为 Agent Chat UI Demo）对着仓库内 Mock Agent 的实拍。表格中的销售数字是演示数据。这些图不是 Windows 安装包安装后的截图。本仓库没有已发布的 GitHub Release 安装包；ChatUI 是带 Demo 的 Vue 3 组件库。
 
-| 欢迎页与快捷指令 | 执行过程 + 表格 |
-| --- | --- |
-| **图表 + 文件卡片** | **动态表单（多步）** |
-| **HITL 人工审批卡片** | **代码块** |
-| **暗色主题** | **帮助中心** |
+| 欢迎页 | 执行过程 + 表格（演示数据） | 暗色主题 |
+| --- | --- | --- |
+| ![欢迎页](docs/screenshots/welcome.png) | ![执行与表格](docs/screenshots/steps-table.png) | ![暗色主题](docs/screenshots/dark-theme.png) |
 
 ## 技术栈
 
