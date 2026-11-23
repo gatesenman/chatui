@@ -21,15 +21,11 @@ A generic **Vue 3 component library for AI-agent chatbots** (npm package name `a
 
 ## Screenshots
 
-The previous version of this section described eight headless-Chromium captures from the local Demo (`demo/`) against the bundled mock agent (`demo/mockAgent.ts`), mostly in the demo "document" layout. **Those image files were never committed to this repository**, so the old caption-only table is removed to avoid implying that screenshots are present.
+These images were recovered from the still-unmerged `docs/bilingual-readme` branch and visually confirmed as the local Demo (`demo/`, title "Agent Chat UI Demo") running against the bundled mock agent. Sales figures in the table are mock/demo data. They are not post-Windows-install captures. This repository has no published GitHub Release installer; ChatUI is a Vue 3 component library with a demo.
 
-Reserved paths for a future live capture (do not link them until the files exist):
-
-- `docs/screenshots/01-welcome.png`
-- `docs/screenshots/02-execution-or-form.png`
-- `docs/screenshots/03-dark-or-help.png`
-
-Captions must state the OS, version, that the data comes from the mock agent, and that the shots are not from a Windows installer (this repository has no published GitHub Release installer; ChatUI is a Vue 3 component library with a demo).
+| Welcome | Execution + table (mock data) | Dark theme |
+| --- | --- | --- |
+| ![Welcome](docs/screenshots/welcome.png) | ![Execution and table](docs/screenshots/steps-table.png) | ![Dark theme](docs/screenshots/dark-theme.png) |
 
 ## Tech stack
 

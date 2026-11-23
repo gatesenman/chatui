@@ -21,15 +21,11 @@
 
 ## 截图
 
-此前本节文字描述了本地 Demo（`demo/`）对着仓库内 Mock Agent（`demo/mockAgent.ts`）用无头 Chromium 实拍的欢迎页、执行过程、表单、暗色主题和帮助中心等画面。**这些图片文件从未提交进本仓库**，因此删掉了只有标题、没有 `![]()` 的空表格，以免让人以为截图已经存在。
+以下图片来自尚未合并的 `docs/bilingual-readme` 分支，已目视确认为本地 Demo（`demo/`，标题为 Agent Chat UI Demo）对着仓库内 Mock Agent 的实拍。表格中的销售数字是演示数据。这些图不是 Windows 安装包安装后的截图。本仓库没有已发布的 GitHub Release 安装包；ChatUI 是带 Demo 的 Vue 3 组件库。
 
-预留路径（文件不存在时请不要写成图片链接，以免破链）：
-
-- `docs/screenshots/01-welcome.png`
-- `docs/screenshots/02-execution-or-form.png`
-- `docs/screenshots/03-dark-or-help.png`
-
-截图说明必须写明操作系统、版本、数据来自 Mock Agent，以及这些图不是 Windows 安装包安装后截取的（本仓库没有已发布的 GitHub Release 安装包；ChatUI 是带 Demo 的 Vue 3 组件库）。
+| 欢迎页 | 执行过程 + 表格（演示数据） | 暗色主题 |
+| --- | --- | --- |
+| ![欢迎页](docs/screenshots/welcome.png) | ![执行与表格](docs/screenshots/steps-table.png) | ![暗色主题](docs/screenshots/dark-theme.png) |
 
 ## 技术栈
 
